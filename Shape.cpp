@@ -15,7 +15,8 @@ void Shape::set_position(float x, float y)
 void Shape::set_rotation(float angle)
 {
 	Node::set_rotation(angle);
-	setRotation(angle);
+	auto transform = shape.getTransform();
+	transform.rotate(angle, 15.0f, 15.0f);
 }
 
 void Shape::drawCurrent(sf::RenderTarget & target, sf::RenderStates states) const
