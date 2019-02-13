@@ -1,7 +1,5 @@
 #include <SFML/Graphics.hpp>
 
-#include "Shape.h"
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 400), "SFML tree!");
@@ -9,34 +7,37 @@ int main()
     float angle = 0.0f;
     sf::Clock clock;
 
-	Node * root = new Node();
+	sf::RectangleShape root(sf::Vector2f(30.0f, 30.0f));
 
-	Shape *s1 = new Shape();
-	Shape *s2 = new Shape();
-	Shape *s3 = new Shape();
-	Shape *s4 = new Shape();
+	sf::RectangleShape s1(sf::Vector2f(30.0f, 30.0f));
+	sf::RectangleShape s2(sf::Vector2f(30.0f, 30.0f));
+	sf::RectangleShape s3(sf::Vector2f(30.0f, 30.0f));
+	sf::RectangleShape s4(sf::Vector2f(30.0f, 30.0f));
 
-	root->add_child(s1);
+	root.setOrigin(15.0f, 15.0f);
+	root.setPosition(200.0f, 120.0f);
+	root.setFillColor(sf::Color::Yellow);
 
-	root->set_position(150.0f, 150.0f);
+	s1.setOrigin(15.0f, 15.0f);
+	s2.setOrigin(15.0f, 15.0f);
+	s3.setOrigin(15.0f, 15.0f);
+	s4.setOrigin(15.0f, 15.0f);
 
-	s1->set_position(-50.0f, -50.0f);
-	s2->set_position(50.0f, -50.0f);
-	s3->set_position(50.0f, 50.0f);
-	s4->set_position(-50.0f, 50.0f);
+	s1.setPosition(-50.0f, 50.0f);
+	s2.setPosition(50.0f, 50.0f);
+	s3.setPosition(50.0f, -50.0f);
+	s4.setPosition(-50.0f, -50.0f);
 
-	root->add_child(s1);
-	root->add_child(s2);
-	root->add_child(s3);
-	root->add_child(s4);
+	s1.setFillColor(sf::Color::Red);
+	s2.setFillColor(sf::Color::Red);
+	s3.setFillColor(sf::Color::Red);
+	s4.setFillColor(sf::Color::Red);
 
     while (window.isOpen())
     {
         sf::Time time = clock.restart();
         float elapsed = time.asSeconds();
         angle += elapsed * 60.0f;
-
-		s1->set_rotation(angle);
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -45,9 +46,22 @@ int main()
                 window.close();
         }
 
+		root.setRotation(angle);
+
+		s1.setRotation(angle);
+		s2.setRotation(angle);
+		s3.setRotation(angle);
+		s4.setRotation(angle);
+
+		auto transform = root.getTransform();
+
         window.clear();
-		window.draw(*root);
-        window.display();
+		window.draw(root);
+		window.draw(s1, transform);
+		window.draw(s2, transform);
+		window.draw(s3, transform);
+		window.draw(s4, transform);
+		window.display();
     }
 
     return 0;
